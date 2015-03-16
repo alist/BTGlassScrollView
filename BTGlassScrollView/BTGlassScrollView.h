@@ -51,7 +51,7 @@
 
 @protocol BTGlassScrollViewDelegate <NSObject>
 @optional
--(void)glassScrollViewDidTapForeground:(BTGlassScrollView*)glassSV interactMode:(BOOL)enabled;
+-(void)glassScrollViewDidTapForeground:(BTGlassScrollView*)glassSV withVectorFromCenter:(CGPoint)vector interactMode:(BOOL)enabled;
 -(void)glassScrollView:(BTGlassScrollView*)scrollView interactModeChanged:(BOOL)enabled;
 -(BOOL)glassScrollView:(BTGlassScrollView*)scrollView shouldChangeInteract:(BOOL)newValue;
 

@@ -309,8 +309,12 @@
 #pragma mark - Button
 - (void)foregroundTapped:(UITapGestureRecognizer *)tapRecognizer
 {
-    if ([self.delegate respondsToSelector:@selector(glassScrollViewDidTapForeground:interactMode:)]){
-        [self.delegate glassScrollViewDidTapForeground:self interactMode:self.interactMode];
+    if ([self.delegate respondsToSelector:@selector(glassScrollViewDidTapForeground:withVectorFromCenter:interactMode:)]){
+        CGPoint vector = [tapRecognizer locationInView:self];
+        vector.x = ceil(vector.x - [self center].x);
+        vector.y = ceil(vector.y - [self center].y);
+        
+        [self.delegate glassScrollViewDidTapForeground:self withVectorFromCenter:vector interactMode:self.interactMode];
     }else{
         CGPoint tappedPoint = [tapRecognizer locationInView:_foregroundScrollView];
         if (tappedPoint.y < _foregroundScrollView.frame.size.height) {
