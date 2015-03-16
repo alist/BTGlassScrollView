@@ -175,6 +175,38 @@
     }
 }
 
+-(void)setInteractMode:(BOOL)interactMode{
+    if (_interactMode != interactMode){
+        if ([self.delegate respondsToSelector:@selector(glassScrollView:shouldChangeInteract:)]){
+            if ([self.delegate glassScrollView:self shouldChangeInteract:interactMode] == NO){
+                return;
+            }
+        }
+        
+        _interactMode = interactMode;
+        
+        if (_interactMode == YES){
+            [UIView animateWithDuration:.3 animations:^{
+                [self.foregroundScrollView setContentOffset:CGPointMake(0,self.foregroundScrollView.height * -1.0f)];
+                [self blurBackground:TRUE];
+                
+                [_botShadowLayer setOpacity:0];
+            }];
+            
+        }else{
+            [UIView animateWithDuration:.3 animations:^{
+                [self.foregroundScrollView setContentOffset:CGPointMake(0,0)];
+                [self blurBackground:false];
+                
+                [_botShadowLayer setOpacity:1];
+            }];
+        }
+        
+        if ([self.delegate respondsToSelector:@selector(glassScrollView:interactModeChanged:)]){
+            [self.delegate glassScrollView:self interactModeChanged:_interactMode];
+        }
+    }
+}
 
 - (void)blurBackground:(BOOL)shouldBlur
 {
@@ -277,15 +309,26 @@
 #pragma mark - Button
 - (void)foregroundTapped:(UITapGestureRecognizer *)tapRecognizer
 {
-    CGPoint tappedPoint = [tapRecognizer locationInView:_foregroundScrollView];
-    if (tappedPoint.y < _foregroundScrollView.frame.size.height) {
-        CGFloat ratio = _foregroundScrollView.contentOffset.y == -_foregroundScrollView.contentInset.top? 1:0;
-        [_foregroundScrollView setContentOffset:CGPointMake(0, ratio * _foregroundView.frame.origin.y - _foregroundScrollView.contentInset.top) animated:YES];
+    if ([self.delegate respondsToSelector:@selector(glassScrollViewDidTapForeground:interactMode:)]){
+        [self.delegate glassScrollViewDidTapForeground:self interactMode:self.interactMode];
+    }else{
+        CGPoint tappedPoint = [tapRecognizer locationInView:_foregroundScrollView];
+        if (tappedPoint.y < _foregroundScrollView.frame.size.height) {
+            CGFloat ratio = _foregroundScrollView.contentOffset.y == -_foregroundScrollView.contentInset.top? 1:0;
+            [_foregroundScrollView setContentOffset:CGPointMake(0, ratio * _foregroundView.frame.origin.y - _foregroundScrollView.contentInset.top) animated:YES];
+        }
     }
 }
 
 #pragma mark - Delegate
 #pragma mark UIScrollView
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    if (self.interactMode == YES){
+        [self setInteractMode:false];
+    }
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     //translate into ratio to height

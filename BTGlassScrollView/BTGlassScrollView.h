@@ -33,7 +33,12 @@
 @property (nonatomic, strong) UIView *foregroundView;//the view that will contain all the info
 @property (nonatomic, assign) CGFloat topLayoutGuideLength;//set this only when using navigation bar of sorts.
 @property (nonatomic, strong, readonly) UIScrollView *foregroundScrollView;//readonly just to get the scroll offsets
+@property (nonatomic, strong, readonly) UIImageView *blurredBackgroundImageView;
+
 @property (nonatomic, weak) id<BTGlassScrollViewDelegate> delegate;
+
+
+@property (nonatomic, assign) BOOL interactMode;
 
 - (id)initWithFrame:(CGRect)frame BackgroundImage:(UIImage *)backgroundImage blurredImage:(UIImage *)blurredImage viewDistanceFromBottom:(CGFloat)viewDistanceFromBottom foregroundView:(UIView *)foregroundView;
 - (void)scrollHorizontalRatio:(CGFloat)ratio;//from -1 to 1
@@ -46,6 +51,10 @@
 
 @protocol BTGlassScrollViewDelegate <NSObject>
 @optional
+-(void)glassScrollViewDidTapForeground:(BTGlassScrollView*)glassSV interactMode:(BOOL)enabled;
+-(void)glassScrollView:(BTGlassScrollView*)scrollView interactModeChanged:(BOOL)enabled;
+-(BOOL)glassScrollView:(BTGlassScrollView*)scrollView shouldChangeInteract:(BOOL)newValue;
+
 //use this to configure your foregroundView when the frame of the whole view changed
 - (void)glassScrollView:(BTGlassScrollView *)glassScrollView didChangedToFrame:(CGRect)frame;
 //make custom blur without messing with default settings
