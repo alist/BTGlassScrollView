@@ -268,10 +268,13 @@
     [_foregroundScrollView addGestureRecognizer:_tapRecognizer];
     
     
-    [_foregroundView setFrame:CGRectOffset(_foregroundView.bounds, (_foregroundScrollView.frame.size.width - _foregroundView.bounds.size.width)/2, _foregroundScrollView.frame.size.height - _viewDistanceFromBottom)];
+    [_foregroundView setFrame:CGRectOffset(_foregroundView.bounds, 0, _foregroundScrollView.frame.size.height - _viewDistanceFromBottom)];
     [_foregroundScrollView addSubview:_foregroundView];
     
-    [_foregroundScrollView setContentSize:CGSizeMake(self.frame.size.width, _foregroundView.frame.origin.y + _foregroundView.frame.size.height)];
+    [_foregroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[_foregroundView(%f)]",self.width] options:0 metrics:nil views:NSDictionaryOfVariableBindings(_foregroundView)]];
+
+    const double magicNumber = 710;
+    [_foregroundScrollView setContentSize:CGSizeMake(self.frame.size.width, _foregroundView.frame.origin.y + magicNumber)];
 }
 
 #pragma mark Shadow and Mask Layer
