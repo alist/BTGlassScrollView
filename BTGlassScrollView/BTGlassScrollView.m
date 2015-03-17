@@ -189,11 +189,14 @@
         _interactMode = interactMode;
         
         if (_interactMode == YES){
+            [_foregroundScrollView setUserInteractionEnabled:false];
             [UIView animateWithDuration:.3 animations:^{
                 [self.foregroundScrollView setContentOffset:CGPointMake(0,self.foregroundScrollView.height * -1.0f)];
                 [self blurBackground:TRUE];
                 
                 [_botShadowLayer setOpacity:0];
+            } completion:^(BOOL finished) {
+                [_foregroundScrollView setUserInteractionEnabled:true];
             }];
             
         }else{
@@ -315,6 +318,11 @@
 #pragma mark - Button
 - (void)foregroundTapped:(UITapGestureRecognizer *)tapRecognizer
 {
+    CGPoint loc = [tapRecognizer locationInView:_foregroundScrollView];
+    if (loc.y > _foregroundView.frame.origin.y + _viewDistanceFromBottom){
+        return;
+    }
+    
     if ([self.delegate respondsToSelector:@selector(glassScrollViewDidTapForeground:withVectorFromCenter:interactMode:)]){
         CGPoint vector = [tapRecognizer locationInView:self];
         vector.x = ceil(vector.x - [self center].x);
