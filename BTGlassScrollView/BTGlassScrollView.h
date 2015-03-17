@@ -40,7 +40,7 @@
 
 @property (nonatomic, assign) BOOL interactMode;
 
-- (id)initWithFrame:(CGRect)frame BackgroundImage:(UIImage *)backgroundImage blurredImage:(UIImage *)blurredImage viewDistanceFromBottom:(CGFloat)viewDistanceFromBottom foregroundView:(UIView *)foregroundView;
+- (id)initWithFrame:(CGRect)frame BackgroundImage:(UIImage *)backgroundImage blurredImage:(UIImage *)blurredImage viewDistanceFromBottom:(CGFloat)viewDistanceFromBottom foregroundView:(UIView *)foregroundView delegate:(id<BTGlassScrollViewDelegate>)delegate;
 - (void)scrollHorizontalRatio:(CGFloat)ratio;//from -1 to 1
 - (void)scrollVerticallyToOffset:(CGFloat)offsetY;
 // change background image on the go

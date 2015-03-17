@@ -23,10 +23,13 @@
 }
 
 
-- (id)initWithFrame:(CGRect)frame BackgroundImage:(UIImage *)backgroundImage blurredImage:(UIImage *)blurredImage viewDistanceFromBottom:(CGFloat)viewDistanceFromBottom foregroundView:(UIView *)foregroundView
+- (id)initWithFrame:(CGRect)frame BackgroundImage:(UIImage *)backgroundImage blurredImage:(UIImage *)blurredImage viewDistanceFromBottom:(CGFloat)viewDistanceFromBottom foregroundView:(UIView *)foregroundView delegate:(id<BTGlassScrollViewDelegate>)delegate
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
+        _delegate = delegate;
+        
         //initialize values
         _backgroundImage = backgroundImage;
         if (blurredImage) {
