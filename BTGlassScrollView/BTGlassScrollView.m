@@ -30,6 +30,8 @@
         
         _delegate = delegate;
         
+        self.backgroundColor = [UIColor clearColor];
+        
         //initialize values
         _backgroundImage = backgroundImage;
         if (blurredImage) {
