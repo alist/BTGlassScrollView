@@ -191,6 +191,9 @@
         _interactMode = interactMode;
         
         if (_interactMode == YES){
+            [_backgroundImageView setAlpha:0];
+            [_blurredBackgroundImageView setAlpha:0];
+            
             [_foregroundScrollView setUserInteractionEnabled:false];
             [UIView animateWithDuration:.3 animations:^{
                 [self.foregroundScrollView setContentOffset:CGPointMake(0,self.foregroundScrollView.height * -1.0f)];
@@ -202,6 +205,9 @@
             }];
             
         }else{
+            [_backgroundImageView setAlpha:1];
+            [_blurredBackgroundImageView setAlpha:0];
+            
             [UIView animateWithDuration:.3 animations:^{
                 [self.foregroundScrollView setContentOffset:CGPointMake(0,0)];
                 [self blurBackground:false];
@@ -243,11 +249,11 @@
 {
     _backgroundImageView = [[UIImageView alloc] initWithImage:_backgroundImage];
     [_backgroundImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_backgroundImageView setContentMode:UIViewContentModeScaleAspectFill];
+    [_backgroundImageView setContentMode:UIViewContentModeScaleAspectFit];
     [_constraitView addSubview:_backgroundImageView];
     _blurredBackgroundImageView = [[UIImageView alloc] initWithImage:_blurredBackgroundImage];
     [_blurredBackgroundImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_blurredBackgroundImageView setContentMode:UIViewContentModeScaleAspectFill];
+    [_blurredBackgroundImageView setContentMode:UIViewContentModeScaleAspectFit];
     [_blurredBackgroundImageView setAlpha:0];
     [_constraitView addSubview:_blurredBackgroundImageView];
     
