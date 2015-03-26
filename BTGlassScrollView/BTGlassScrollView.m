@@ -284,7 +284,7 @@
     
     [_foregroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[_foregroundView(%f)]",self.width] options:0 metrics:nil views:NSDictionaryOfVariableBindings(_foregroundView)]];
 
-    const double magicNumber = 710;
+    const double magicNumber = 860+100;
     [_foregroundScrollView setContentSize:CGSizeMake(self.frame.size.width, _foregroundView.frame.origin.y + magicNumber)];
 }
 
